@@ -22,13 +22,27 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`.  `CYMK` values are in decimal percentages (0.0 - 1.0)
   ///
-  func convertToCMYKUsing(red: CGFloat, green: CGFloat, blue: CGFloat) -> Color? {
-    let pointRed = red/255.0, pointGreen = green/255.0, pointBlue = blue/255.0
+  func convertToCMYKUsing(red: CGFloat?, green: CGFloat?, blue: CGFloat?) -> Color? {
     
-    let key = 1 - max(pointRed, pointGreen, pointBlue)
-    let cyan = (1 - pointRed - key) / (1 - key)
-    let magenta = (1 - pointGreen - key) / (1 - key)
-    let yellow = (1 - pointBlue - key) / (1 - key)
+    guard red != nil, let red = red,
+          green != nil, let green = green,
+          blue != nil, let blue = blue else {
+      return nil
+    }
+    
+    let redV = red / 255.0, greenV = green / 255.0, blueV = blue / 255.0
+    
+    var key = 1 - max(redV, greenV, blueV)
+    if key.isNaN { key = 0 }
+    
+    var cyan = (1 - redV - key) / (1 - key)
+    if cyan.isNaN { cyan = 0 }
+    
+    var magenta = (1 - greenV - key) / (1 - key)
+    if magenta.isNaN { magenta = 0 }
+    
+    var yellow = (1 - blueV - key) / (1 - key)
+    if yellow.isNaN { yellow = 0 }
     
     return Color(cyan: cyan, magenta: magenta, yellow: yellow, key: key)
   }
@@ -56,8 +70,9 @@ extension Color {
   /// - Returns: `Optional<Color>`.  `CYMK` values are in decimal percentages (0.0 - 1.0)
   ///
   func convertToCMYKUsing(uiColor: UIColor?) -> Color? {
-    guard let compColor = uiColor?.cgColor.components else { return nil }
-    return convertToCMYKUsing(red: compColor[0], green: compColor[1], blue: compColor[2])
+    guard let rgbColor = convertToRGBUsing(uiColor: uiColor) else { return nil }
+    guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
+    return convertToCMYKUsing(red: red, green: green, blue: blue)
   }
   
   
@@ -74,7 +89,8 @@ extension Color {
   func convertToCMYKUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) -> Color? {
     guard let rgbColor = convertToRGBUsing(hue: hue, saturation: saturation, luminance: luminance) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
-    return convertToHSLUsing(red: red, green: green, blue: blue)
+    return convertToCMYKUsing(red: red, green: green, blue: blue)
+
   }
   
   

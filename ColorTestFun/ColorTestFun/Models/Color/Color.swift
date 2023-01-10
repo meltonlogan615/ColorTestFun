@@ -62,8 +62,7 @@ class Color: Codable, Equatable {
        monochromaticColor: Color? = nil,
        complementaryColor: Color? = nil,
        triadicColors: [Color]? = nil,
-       tetraticColors: [Color]? = nil
-  ) {
+       tetraticColors: [Color]? = nil) {
     self.red = red
     self.green = green
     self.blue = blue
@@ -84,15 +83,16 @@ class Color: Codable, Equatable {
   }
   
   // MARK: - RGB Init
-  convenience init(red: CGFloat, green: CGFloat, blue: CGFloat) {
+  convenience init(red: CGFloat?, green: CGFloat?, blue: CGFloat?) {
     self.init()
     self.red = red
     self.green = green
     self.blue = blue
+
   }
   
   // MARK: - Hex Init
-  convenience init(hex: String) {
+  convenience init(hex: String?) {
     self.init()
     self.hex = hex
   }
@@ -104,7 +104,7 @@ class Color: Codable, Equatable {
   }
   
   // MARK: - HSL Init
-  convenience init(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) {
+  convenience init(hue: CGFloat?, saturation: CGFloat?, luminance: CGFloat?) {
     self.init()
     self.hue = hue
     self.saturation = saturation
@@ -112,7 +112,7 @@ class Color: Codable, Equatable {
   }
   
   // MARK: - HSV Init
-  convenience init(hue: CGFloat, saturation: CGFloat, value: CGFloat) {
+  convenience init(hue: CGFloat?, saturation: CGFloat?, value: CGFloat?) {
     self.init()
     self.hue = hue
     self.saturation = saturation
@@ -120,7 +120,7 @@ class Color: Codable, Equatable {
   }
   
   // MARK: - CYMK Init
-  convenience init(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key: CGFloat) {
+  convenience init(cyan: CGFloat?, magenta: CGFloat?, yellow: CGFloat?, key: CGFloat?) {
     self.init()
     self.cyan = cyan
     self.magenta = magenta

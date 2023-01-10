@@ -21,27 +21,43 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`. `Hue`, `Saturation`, `Value` values are in decimal percentages (0.0 - 1.0).
   ///
-  func convertToHSVUsing(red: CGFloat, green: CGFloat, blue: CGFloat) -> Color? {
-    let maxV = max(red, green, blue)
-    let minV = min(red, green, blue)
-    let delta = (maxV - minV) / 255
-    
-    let value = ((maxV + minV) / 510.0)
-    
-    let saturation = delta / (2.0 - abs(2.0 * value))
-    
-    let segmentOne = (red - (green * 0.5) - (blue * 0.5))
-    let squares = ((red * red) + (green * green) + (blue * blue))
-    let multiples = ((red * green) - (red * blue) - (green * blue))
-    let rooted = sqrt(squares - multiples)
-    let prevalue = (acos(segmentOne / rooted) * 180.0 / .pi)
-    var hue = CGFloat()
-    
-    if green >= blue {
-      hue = prevalue
-    } else {
-      hue = (360 - prevalue)
+  func convertToHSVUsing(red: CGFloat?, green: CGFloat?, blue: CGFloat?) -> Color? {
+    guard red != nil, let red = red,
+          green != nil, let green = green,
+          blue != nil, let blue = blue else {
+      return nil
     }
+    let redV = (red / 255.0)
+    let greenV = (green / 255.0)
+    let blueV = (blue / 255.0)
+    
+    let maxV = max(redV, greenV, blueV)
+    let minV = min(redV, greenV, blueV)
+    
+    let delta = maxV - minV
+    
+    var hue = CGFloat()
+    var value = CGFloat()
+    var saturation = CGFloat()
+    
+    if delta == 0 {
+      hue = 0
+    } else if maxV == redV {
+      hue = 60 * ((greenV - blueV) / delta).truncatingRemainder(dividingBy: 6)
+    } else if maxV == greenV {
+      hue = 60 * (((blueV - redV) / delta) + 2.0)
+    } else if maxV == blueV {
+      hue = 60 * (((redV - greenV) / delta) + 4)
+    }
+    
+    if maxV == 0 {
+      saturation = 0
+    } else {
+      saturation = round((delta / maxV) * 10) / 10
+    }
+    
+    value = maxV
+    
     return Color(hue: round(hue * 10) / 10, saturation: round(saturation * 10) / 10, value: round(value * 10) / 10)
   }
   
@@ -68,8 +84,9 @@ extension Color {
   /// - Returns: `Optional<Color>`. `Hue`, `Saturation`, `Value` values are in decimal percentages (0.0 - 1.0)
   ///
   func convertToHSVUsing(uiColor: UIColor?) -> Color? {
-    guard let compColor = uiColor?.cgColor.components else { return nil }
-    return convertToHSVUsing(red: compColor[0], green: compColor[1], blue: compColor[2])
+    guard let rgbColor = convertToRGBUsing(uiColor: uiColor) else { return nil }
+    guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
+    return convertToHSVUsing(red: red, green: green, blue: blue)
   }
   
   

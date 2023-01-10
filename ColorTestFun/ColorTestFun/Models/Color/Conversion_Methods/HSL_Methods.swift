@@ -31,7 +31,7 @@ extension Color {
     let delta = ((cMax / 255) - (cMin / 255))
     var hue = CGFloat()
     var saturation = CGFloat()
-    let luminance = ((cMax / 255) + (cMin / 255)) / 2
+    var luminance = ((cMax / 255) + (cMin / 255)) / 2
     
     if delta == 0 {
       saturation = 0
@@ -48,8 +48,14 @@ extension Color {
     } else if cMax == blue {
       hue = 60 * (((redV - greenV) / delta) + 4)
     }
+    hue = round(hue)
+    print(hue)
+    saturation = round(saturation * 10) / 10
+    print(saturation)
+    luminance = round(luminance * 10) / 10
+    print(luminance)
     
-    return Color(hue: round(hue), saturation: round(saturation * 10) / 10, luminance: round(luminance * 10) / 10)
+    return Color(hue: hue, saturation: saturation, luminance: luminance)
   }
   
   
@@ -94,6 +100,7 @@ extension Color {
     guard let rgbColor = convertToRGBUsing(hue: hue, saturation: saturation, value: value) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
     return convertToHSLUsing(red: red, green: green, blue: blue)
+
   }
   
   

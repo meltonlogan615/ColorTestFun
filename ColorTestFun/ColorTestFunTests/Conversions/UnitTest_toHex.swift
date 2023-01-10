@@ -11,12 +11,16 @@ import XCTest
 final class UnitTest_ToHEX: XCTestCase {
   let color = Color()
   let hex = TestData.hexColors
-  
+   
   func test_conversionToHex_fromRGB() {
     let test = TestData.rgbColors.map {
-      color.convertToHexUsing(red: $0!.red!, green: $0!.green!, blue: $0!.blue!)
+      color.convertToHexUsing(red: $0!.red, green: $0!.green, blue: $0!.blue)
     }
-    
+//    XCTAssertEqual(hex[0]?.hex, test[0]?.hex)
+    XCTAssertEqual(hex[1]?.hex, test[1]?.hex)
+    XCTAssertEqual(hex[2]?.hex, test[2]?.hex)
+    XCTAssertEqual(hex[3]?.hex, test[3]?.hex)
+    XCTAssertEqual(hex[4]?.hex, test[4]?.hex)
   }
   
   func test_conversionToHex_fromUIColor() {

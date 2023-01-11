@@ -23,7 +23,7 @@ class ColorCell: UITableViewCell {
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
     titleLabel.font = .preferredFont(forTextStyle: .title3)
     titleLabel.textColor = .black
-    self.accessoryType = .disclosureIndicator
+    self.accessoryType = .checkmark
     
     contentView.addSubview(titleLabel)
     NSLayoutConstraint.activate([

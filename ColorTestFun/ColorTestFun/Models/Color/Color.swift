@@ -17,7 +17,10 @@ class Color: Codable, Equatable {
   
   var hex: String?
   
-  @CodableColor var uiColor: UIColor?
+  var uiColor: UIColor? {
+    guard let red = red, let green = green, let blue = blue, let alpha = alpha else { return nil }
+    return UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: alpha)
+  }
 
   var hue: CGFloat?
   var saturation: CGFloat?
@@ -30,27 +33,30 @@ class Color: Codable, Equatable {
   var key: CGFloat?
   
   
-  /// `Monochromatic Colors` are two colors that are 
-  ///
-  var monochromaticColor: Color?
-  
   /// `Complementary Colors` are two colors that are directly opposite of each other on the color wheel.
   ///
-  var complementaryColor: Color?
+  var complementary: String?
+  /// `Monochromatic Colors` are two colors that are
+  ///
+  var monochromatic: String?
+  
+  /// `Analogous Colors` are three colors that are directly opposite of each other on the color wheel.
+  ///
+  var analogous: [String]?
   
   /// `Triadic Colors` are three colors that are evenly spaced around the color wheel at 120 degrees in either direction.
   ///
-  var triadicColors: [Color]?
+  var triadic: [String]?
   
   /// `Tetratic Colors` are four colors that are evenly spaced at 90 degree increments around the color wheel.
-  var tetraticColors: [Color]?
+  var tetradic: [String]?
   
   // MARK: - Required Full Init
   init(red: CGFloat? = nil,
        green: CGFloat? = nil,
        blue: CGFloat? = nil,
        hex: String? = nil,
-       uiColor: UIColor? = nil,
+//       uiColor: UIColor? = nil,
        hue: CGFloat? = nil,
        saturation: CGFloat? = nil,
        luminance: CGFloat? = nil,
@@ -59,15 +65,15 @@ class Color: Codable, Equatable {
        cyan: CGFloat? = nil,
        magenta: CGFloat? = nil,
        yellow: CGFloat? = nil,
-       monochromaticColor: Color? = nil,
-       complementaryColor: Color? = nil,
-       triadicColors: [Color]? = nil,
-       tetraticColors: [Color]? = nil) {
+       monochromatic: String? = nil,
+       complementary: String? = nil,
+       triadic: [String]? = nil,
+       tetradic: [String]? = nil) {
     self.red = red
     self.green = green
     self.blue = blue
     self.hex = hex
-    self.uiColor = uiColor
+//    self.uiColor = uiColor
     self.hue = hue
     self.saturation = saturation
     self.luminance = luminance
@@ -76,10 +82,10 @@ class Color: Codable, Equatable {
     self.magenta = magenta
     self.yellow = yellow
     self.key = key
-    self.monochromaticColor = monochromaticColor
-    self.complementaryColor = complementaryColor
-    self.triadicColors = triadicColors
-    self.tetraticColors = tetraticColors
+    self.monochromatic = monochromatic
+    self.complementary = complementary
+    self.triadic = triadic
+    self.tetradic = tetradic
   }
   
   // MARK: - RGB Init
@@ -98,10 +104,10 @@ class Color: Codable, Equatable {
   }
   
   // MARK: UIColor Init
-  convenience init(uiColor: UIColor?) {
-    self.init()
-    self.uiColor = uiColor
-  }
+//  convenience init(uiColor: UIColor?) {
+//    self.init()
+//    self.uiColor = uiColor
+//  }
   
   // MARK: - HSL Init
   convenience init(hue: CGFloat?, saturation: CGFloat?, luminance: CGFloat?) {

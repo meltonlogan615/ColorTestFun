@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HexDefined: UIView {
+class HexView: UIView {
   
   let colorView = UIView()
   var color: UIColor?
@@ -27,7 +27,7 @@ class HexDefined: UIView {
   }
 }
 
-extension HexDefined {
+extension HexView {
   
   func style() {
     translatesAutoresizingMaskIntoConstraints = false
@@ -47,6 +47,7 @@ extension HexDefined {
     hexTextField.translatesAutoresizingMaskIntoConstraints = false
     hexTextField.placeholder = "#000000"
     hexTextField.font = .preferredFont(forTextStyle: .title2)
+    hexTextField.textAlignment = .center
     
     setColorButton.translatesAutoresizingMaskIntoConstraints = false
     setColorButton.setTitle("Set Color", for: [])

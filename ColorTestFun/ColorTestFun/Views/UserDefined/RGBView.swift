@@ -8,7 +8,7 @@
 import Combine
 import UIKit
 
-class RGBDefined: UIView {
+class RGBView: UIView {
   let colorView = UIView()
   
   var hexLabel = UILabel()
@@ -37,7 +37,7 @@ class RGBDefined: UIView {
   }
 }
 
-extension RGBDefined {
+extension RGBView {
   func style() {
     translatesAutoresizingMaskIntoConstraints = false
     colorView.translatesAutoresizingMaskIntoConstraints = false

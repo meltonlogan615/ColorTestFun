@@ -20,7 +20,15 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getTetraticColorsUsing(red: CGFloat, green: CGFloat, blue: CGFloat) { }
+  func getTetraticColorsUsing(red: CGFloat, green: CGFloat, blue: CGFloat) -> [Color?] {
+    guard let hsl = convertToHSLUsing(red: red, green: green, blue: blue) else { return [nil] }
+    guard let hslHue = hsl.hue, let hslSat = hsl.saturation, let hslVal = hsl.value else { return [nil] }
+    let tet = getTetraticColorsUsing(hue: hslHue, saturation: hslSat, luminance: hslVal)
+    let rgbTet = tet.map {
+      self.convertToRGBUsing(hue: $0!.hue!, saturation: $0!.saturation!, luminance: $0!.luminance!)
+    }
+    return rgbTet
+  }
   
   
   // MARK: - from Hex
@@ -30,7 +38,15 @@ extension Color {
   ///
   /// - Returns: `[Color]`
   ///
-  func getTetraticColorsUsing(hex: String) { }
+  func getTetraticColorsUsing(hex: String) -> [Color?] {
+    guard let hsl = convertToHSLUsing(hex: hex) else { return [nil] }
+    guard let hslHue = hsl.hue, let hslSat = hsl.saturation, let hslVal = hsl.value else { return [nil] }
+    let tet = getTetraticColorsUsing(hue: hslHue, saturation: hslSat, luminance: hslVal)
+    let hexTet = tet.map {
+      self.convertToHexUsing(hue: $0!.hue!, saturation: $0!.saturation!, luminance: $0!.luminance!)
+    }
+    return hexTet
+  }
   
   
   // MARK: - from UIColor
@@ -40,7 +56,15 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getTetraticColorsUsing(uiColor: UIColor?) { }
+  func getTetraticColorsUsing(uiColor: UIColor?) -> [UIColor?] {
+    guard let hsl = convertToHSLUsing(uiColor: uiColor) else { return [nil] }
+    guard let hslHue = hsl.hue, let hslSat = hsl.saturation, let hslVal = hsl.value else { return [nil] }
+    let tet = getTetraticColorsUsing(hue: hslHue, saturation: hslSat, luminance: hslVal)
+    let uiTet = tet.map {
+      self.convertToUIColorUsing(hue: $0!.hue!, saturation: $0!.saturation!, luminance: $0!.luminance!)
+    }
+    return uiTet
+  }
   
   
   // MARK: - from HSL
@@ -52,7 +76,33 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getTetraticColorsUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) { }
+  func getTetraticColorsUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) -> [Color?] {
+    var hueOne = CGFloat()
+    var hueTwo = CGFloat()
+    var hueThree = CGFloat()
+    if (hue + 90) < 360 {
+      hueOne = (hue + 90)
+    } else {
+      hueOne = ((hue + 90) - 360)
+    }
+    
+    if (hue + 180) < 360 {
+      hueTwo = (hue + 180)
+    } else {
+      hueTwo = ((hue + 180) - 360)
+    }
+    
+    if hue + 270 < 360 {
+      hueThree = (hue + 270)
+    } else {
+      hueThree = ((hue + 270) - 360)
+    }
+    
+    let tetOne = Color(hue: hueOne, saturation: saturation, luminance: luminance)
+    let tetTwo = Color(hue: hueTwo, saturation: saturation, luminance: luminance)
+    let tetThree = Color(hue: hueThree, saturation: saturation, luminance: luminance)
+    return [tetOne, tetTwo, tetThree]
+  }
   
   
   // MARK: - from HSV
@@ -64,7 +114,15 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getTetraticColorsUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) { }
+  func getTetraticColorsUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) -> [Color?] {
+    guard let hsl = convertToHSLUsing(hue: hue, saturation: saturation, value: value) else { return [nil] }
+    guard let hslHue = hsl.hue, let hslSat = hsl.saturation, let hslVal = hsl.value else { return [nil] }
+    let tet = getTetraticColorsUsing(hue: hslHue, saturation: hslSat, luminance: hslVal)
+    let hsvTet = tet.map {
+      self.convertToHSVUsing(hue: $0!.hue!, saturation: $0!.saturation!, luminance: $0!.luminance!)
+    }
+    return hsvTet
+  }
   
   
   // MARK: - from CYMK
@@ -77,6 +135,14 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getTetraticColorsUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key black: CGFloat) { }
+  func getTetraticColorsUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key: CGFloat) -> [Color?] {
+    guard let hsl = convertToHSLUsing(cyan: cyan, magenta: magenta, yellow: yellow, key: key) else { return [nil] }
+    guard let hslHue = hsl.hue, let hslSat = hsl.saturation, let hslVal = hsl.value else { return [nil] }
+    let tet = getTetraticColorsUsing(hue: hslHue, saturation: hslSat, luminance: hslVal)
+    let cmykTet = tet.map {
+      self.convertToCMYKUsing(hue: $0!.hue!, saturation: $0!.saturation!, luminance: $0!.luminance!)
+    }
+    return cmykTet
+  }
 }
 

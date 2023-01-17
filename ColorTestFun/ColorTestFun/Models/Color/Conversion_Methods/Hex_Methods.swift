@@ -78,7 +78,8 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>` with a `String` value for its `hex` property.
   ///
-  func convertToHexUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) -> Color? {
+  func convertToHexUsing(hue: CGFloat?, saturation: CGFloat?, luminance: CGFloat?) -> Color? {
+//    guard let hue = hue, let saturation = saturation, let luminance = luminance else { return nil }
     guard let rgbColor = convertToRGBUsing(hue: hue, saturation: saturation, luminance: luminance) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
     let hexColor = convertToHexUsing(red: red, green: green, blue: blue)
@@ -95,7 +96,8 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>` with a `String` value for its `hex` property.
   ///
-  func convertToHexUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) -> Color? {
+  func convertToHexUsing(hue: CGFloat?, saturation: CGFloat?, value: CGFloat?) -> Color? {
+//    guard let hue = hue, let saturation = saturation, let value = value else { return nil }
     guard let rgbColor = convertToRGBUsing(hue: hue, saturation: saturation, value: value) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
     let hexColor = convertToHexUsing(red: red, green: green, blue: blue)
@@ -113,7 +115,7 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>` with a `String` value for its `hex` property.
   ///
-  func convertToHexUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key: CGFloat) -> Color? {
+  func convertToHexUsing(cyan: CGFloat?, magenta: CGFloat?, yellow: CGFloat?, key: CGFloat?) -> Color? {
     guard let rgbColor = convertToRGBUsing(cyan: cyan, magenta: magenta, yellow: yellow, key: key) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
     let hexColor = convertToHexUsing(red: red, green: green, blue: blue)

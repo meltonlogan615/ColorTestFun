@@ -42,46 +42,52 @@ class Color: Codable, Equatable {
   
   /// `Analogous Colors` are three colors that are directly opposite of each other on the color wheel.
   ///
-  var analogous: [String]?
+  var analogous: [String?]?
   
   /// `Triadic Colors` are three colors that are evenly spaced around the color wheel at 120 degrees in either direction.
   ///
-  var triadic: [String]?
+  var triadic: [String?]?
   
   /// `Tetratic Colors` are four colors that are evenly spaced at 90 degree increments around the color wheel.
-  var tetradic: [String]?
+  var tetradic: [String?]?
   
   // MARK: - Required Full Init
   init(red: CGFloat? = nil,
        green: CGFloat? = nil,
        blue: CGFloat? = nil,
+       
        hex: String? = nil,
-//       uiColor: UIColor? = nil,
+       
        hue: CGFloat? = nil,
        saturation: CGFloat? = nil,
        luminance: CGFloat? = nil,
        value: CGFloat? = nil,
-       key: CGFloat? = nil,
+       
        cyan: CGFloat? = nil,
        magenta: CGFloat? = nil,
        yellow: CGFloat? = nil,
+       key: CGFloat? = nil,
+       
        monochromatic: String? = nil,
        complementary: String? = nil,
-       triadic: [String]? = nil,
-       tetradic: [String]? = nil) {
+       triadic: [String?] = [nil],
+       tetradic: [String?] = [nil]) {
     self.red = red
     self.green = green
     self.blue = blue
+    
     self.hex = hex
-//    self.uiColor = uiColor
+    
     self.hue = hue
     self.saturation = saturation
     self.luminance = luminance
     self.value = value
+    
     self.cyan = cyan
     self.magenta = magenta
     self.yellow = yellow
     self.key = key
+    
     self.monochromatic = monochromatic
     self.complementary = complementary
     self.triadic = triadic

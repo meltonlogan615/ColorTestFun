@@ -86,7 +86,7 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`.  `CYMK` values are in decimal percentages (0.0 - 1.0)
   ///
-  func convertToCMYKUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) -> Color? {
+  func convertToCMYKUsing(hue: CGFloat?, saturation: CGFloat?, luminance: CGFloat?) -> Color? {
     guard let rgbColor = convertToRGBUsing(hue: hue, saturation: saturation, luminance: luminance) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
     return convertToCMYKUsing(red: red, green: green, blue: blue)
@@ -104,7 +104,7 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`.  `CYMK` values are in decimal percentages (0.0 - 1.0)
   ///
-  func convertToCMYKUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) -> Color? {
+  func convertToCMYKUsing(hue: CGFloat?, saturation: CGFloat?, value: CGFloat?) -> Color? {
     guard let rgbColor = convertToRGBUsing(hue: hue, saturation: saturation, value: value) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
     return convertToCMYKUsing(red: red, green: green, blue: blue)

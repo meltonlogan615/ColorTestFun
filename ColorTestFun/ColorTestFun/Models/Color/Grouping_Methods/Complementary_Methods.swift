@@ -48,7 +48,12 @@ extension Color {
   ///
   /// - Returns
   ///
-  func getComplementaryColorsUsing(hex: String) { }
+  func getComplementaryColorsUsing(hex: String?) -> Color? {
+    guard hex != nil, let hex = hex else { return nil }
+    guard let color = self.convertToRGBUsing(hex: hex) else { return nil }
+    guard let red = color.red, let green = color.green, let blue = color.blue else { return nil }
+    return getComplementaryColorsUsing(red: red, green: green, blue: blue)
+  }
   
   
   // MARK: - from UIColor
@@ -57,7 +62,12 @@ extension Color {
   /// - Parameter uiColor:
   ///
   /// - Returns:
-  func getComplementaryColorsUsing(uiColor: UIColor?) { }
+  func getComplementaryColorsUsing(uiColor: UIColor?) -> Color? {
+    guard uiColor != nil, let color = uiColor else { return nil }
+    guard let components = color.cgColor.components else { return nil }
+    let red = components[0] * 255, green = components[1] * 255, blue = components[2] * 255
+    return getComplementaryColorsUsing(red: red, green: green, blue: blue)
+  }
   
   
   // MARK: - from HSL
@@ -69,7 +79,11 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getComplementaryColorsUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) { }
+  func getComplementaryColorsUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) -> Color? {
+    guard let color = self.convertToRGBUsing(hue: hue, saturation: saturation, luminance: luminance) else { return nil }
+    guard let red = color.red, let green = color.green, let blue = color.blue else { return nil }
+    return getComplementaryColorsUsing(red: red, green: green, blue: blue)
+  }
   
   
   // MARK: - from HSV
@@ -81,7 +95,11 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getComplementaryColorsUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) { }
+  func getComplementaryColorsUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) -> Color? {
+    guard let color = self.convertToRGBUsing(hue: hue, saturation: saturation, value: value) else { return nil }
+    guard let red = color.red, let green = color.green, let blue = color.blue else { return nil }
+    return getComplementaryColorsUsing(red: red, green: green, blue: blue)
+  }
   
   
   // MARK: - from CYMK
@@ -94,6 +112,10 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getComplementaryColorsUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key black: CGFloat) { }
+  func getComplementaryColorsUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key: CGFloat) -> Color? {
+    guard let color = self.convertToRGBUsing(cyan: cyan, magenta: magenta, yellow: yellow, key: key) else { return nil }
+    guard let red = color.red, let green = color.green, let blue = color.blue else { return nil }
+    return getComplementaryColorsUsing(red: red, green: green, blue: blue)
+  }
 }
 

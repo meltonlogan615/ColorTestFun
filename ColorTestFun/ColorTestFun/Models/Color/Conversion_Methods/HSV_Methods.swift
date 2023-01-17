@@ -99,7 +99,7 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`. `Hue`, `Saturation`, `Value` values are in decimal percentages (0.0 - 1.0)
   ///
-  func convertToHSVUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) -> Color? {
+  func convertToHSVUsing(hue: CGFloat?, saturation: CGFloat?, luminance: CGFloat?) -> Color? {
     guard let rgbColor = convertToRGBUsing(hue: hue, saturation: saturation, luminance: luminance) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
     return convertToHSVUsing(red: red, green: green, blue: blue)
@@ -117,7 +117,7 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`. `Hue`, `Saturation`, `Value` values are in decimal percentages (0.0 - 1.0)
   ///
-  func convertToHSVUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key black: CGFloat) -> Color? {
+  func convertToHSVUsing(cyan: CGFloat?, magenta: CGFloat?, yellow: CGFloat?, key black: CGFloat?) -> Color? {
     guard let rgbColor = convertToRGBUsing(cyan: cyan, magenta: magenta, yellow: yellow, key: black) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
     return convertToHSVUsing(red: red, green: green, blue: blue)

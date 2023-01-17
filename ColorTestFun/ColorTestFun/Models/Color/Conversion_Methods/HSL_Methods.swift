@@ -20,7 +20,8 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`. `Hue`, `Saturation`, `Luminances` values are in decimal percentages (0.0 - 1.0)
   ///
-  func convertToHSLUsing(red: CGFloat, green: CGFloat, blue: CGFloat) -> Color? {
+  func convertToHSLUsing(red: CGFloat?, green: CGFloat?, blue: CGFloat?) -> Color? {
+    guard let red = red, let green = green, let blue = blue else { return nil }
     let cMax = max(red, green, blue)
     let cMin = min(red, green, blue)
     
@@ -96,7 +97,7 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`. `Hue`, `Saturation`, `Luminances` values are in decimal percentages (0.0 - 1.0)
   ///
-  func convertToHSLUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) -> Color? {
+  func convertToHSLUsing(hue: CGFloat?, saturation: CGFloat?, value: CGFloat?) -> Color? {
     guard let rgbColor = convertToRGBUsing(hue: hue, saturation: saturation, value: value) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
     return convertToHSLUsing(red: red, green: green, blue: blue)
@@ -114,7 +115,7 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`. `Hue`, `Saturation`, `Luminances` values are in decimal percentages (0.0 - 1.0)
   ///
-  func convertToHSLUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key: CGFloat) -> Color? {
+  func convertToHSLUsing(cyan: CGFloat?, magenta: CGFloat?, yellow: CGFloat?, key: CGFloat?) -> Color? {
     guard let rgbColor = convertToRGBUsing(cyan: cyan, magenta: magenta, yellow: yellow, key: key) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
     return convertToHSLUsing(red: red, green: green, blue: blue)

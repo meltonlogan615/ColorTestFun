@@ -42,7 +42,7 @@ extension TabBarController {
     
     self.viewControllers = [
       listTab,
-            userDefined
+      userDefined
     ]
   }
   

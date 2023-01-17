@@ -106,8 +106,8 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`. `RGB` values are in 256 format (0 - 255).
   ///
-  func convertToRGBUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) -> Color? {
-    
+  func convertToRGBUsing(hue: CGFloat?, saturation: CGFloat?, luminance: CGFloat?) -> Color? {
+    guard let hue = hue, let saturation = saturation, let luminance = luminance else { return nil }
     let delta = saturation * (1 - abs((2 * luminance) - 1))
     
     let m = 255 * (luminance - (delta / 2))
@@ -151,7 +151,8 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`.  `RGB` values are in 256 format (0 - 255).
   ///
-  func convertToRGBUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) -> Color? {
+  func convertToRGBUsing(hue: CGFloat?, saturation: CGFloat?, value: CGFloat?) -> Color? {
+    guard let hue = hue, let saturation = saturation, let value = value else { return nil }
     let M = 255.0 * value
     
     let m = M * (1.0 - saturation)
@@ -196,7 +197,8 @@ extension Color {
   ///
   /// - Returns: `Optional<Color>`.  `RGB` values are in 256 format (0 - 255).
   ///
-  func convertToRGBUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key: CGFloat) -> Color? {
+  func convertToRGBUsing(cyan: CGFloat?, magenta: CGFloat?, yellow: CGFloat?, key: CGFloat?) -> Color? {
+    guard let cyan = cyan, let magenta = magenta, let yellow = yellow, let key = key else { return nil }
     let red = 255 * (1 - cyan) * (1 - key)
     let green = 255 * (1 - magenta) * (1 - key)
     let blue = 255 * (1 - yellow) * (1 - key)

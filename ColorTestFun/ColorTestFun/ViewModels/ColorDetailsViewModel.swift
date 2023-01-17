@@ -53,7 +53,7 @@ class ColorDetailsViewModel {
     if let analArray = color.analogous {
       var finalArray = [Color?]()
       if !analArray.isEmpty {
-        let analColors = [hexString] + analArray
+        let analColors = [color.hex] + analArray
         for color in analColors {
           let anal = Color(hex: color)
           finalArray.append(anal)
@@ -66,7 +66,7 @@ class ColorDetailsViewModel {
     if let triArray = color.triadic {
       var finalArray = [Color?]()
       if !triArray.isEmpty {
-        let triColors = [hexString] + triArray
+        let triColors = [color.hex] + triArray
         for color in triColors {
           let tri = Color(hex: color)
           finalArray.append(tri)
@@ -79,7 +79,7 @@ class ColorDetailsViewModel {
     if let tetArray = color.tetradic {
       var finalArray = [Color?]()
       if !tetArray.isEmpty {
-        let tetColors = [hexString] + tetArray
+        let tetColors = [color.hex] + tetArray
         for color in tetColors {
           let tet = Color(hex: color)
           finalArray.append(tet)

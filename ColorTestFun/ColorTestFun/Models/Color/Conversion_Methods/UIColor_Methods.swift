@@ -20,7 +20,8 @@ extension Color {
   ///
   /// - Returns: `UIColor` with a default alpha / opacity of 1.0
   ///
-  func convertToUIColorUsing(red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0) -> UIColor {
+  func convertToUIColorUsing(red: CGFloat? = 0, green: CGFloat? = 0, blue: CGFloat? = 0) -> UIColor? {
+    guard let red = red, let green = green, let blue = blue else { return nil }
     return UIColor(red: red / 255, green: green / 255, blue: blue / 255, alpha: 1.0)
   }
   
@@ -48,7 +49,7 @@ extension Color {
   ///
   /// - Returns: `Optional<UIColor>` with a default alpha / opacity of 1.0
   ///
-  func convertToUIColorUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) -> UIColor? {
+  func convertToUIColorUsing(hue: CGFloat?, saturation: CGFloat?, luminance: CGFloat?) -> UIColor? {
     guard let colorOut = convertToRGBUsing(hue: hue, saturation: saturation, luminance: luminance) else { return nil }
     guard let redOut = colorOut.red, let greenOut = colorOut.green, let blueOut = colorOut.blue else { return nil }
     return UIColor(red: redOut / 255.0, green: greenOut / 255.0, blue: blueOut / 255.0, alpha: 1.0)
@@ -65,7 +66,7 @@ extension Color {
   ///
   /// - Returns: `Optional<UIColor>` with a default alpha / opacity of 1.0
   ///
-  func convertToUIColorUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) -> UIColor? {
+  func convertToUIColorUsing(hue: CGFloat?, saturation: CGFloat?, value: CGFloat?) -> UIColor? {
     guard let rgbColor = convertToRGBUsing(hue: hue, saturation: saturation, value: value) else { return nil }
     guard let red = rgbColor.red, let green = rgbColor.green, let blue = rgbColor.blue else { return nil }
     return UIColor(red: red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: 1.0)
@@ -82,7 +83,7 @@ extension Color {
   ///
   /// - Returns: `Optional<UIColor>` with a default alpha / opacity of 1.0
   ///
-  func convertToUIColorUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key: CGFloat) -> UIColor? {
+  func convertToUIColorUsing(cyan: CGFloat?, magenta: CGFloat?, yellow: CGFloat?, key: CGFloat?) -> UIColor? {
     guard let rgb = convertToRGBUsing(cyan: cyan, magenta: magenta, yellow: yellow, key: key) else { return nil }
     guard let red = rgb.red, let green = rgb.green, let blue = rgb.blue else { return nil }
     return UIColor(red: red / 255.0, green: green / 255.0, blue: blue / 255.0, alpha: 1.0)

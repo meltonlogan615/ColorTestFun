@@ -12,7 +12,7 @@ import UIKit
 extension Color {
   
   // MARK: - from RGB
-  /// Returns `[Color]`, that contains two instances of `Color` that are 120 degrees in either direction on the color wheel from the input value.
+  /// Returns `[Color]?`, that contains two instances of `Color` that are 120 degrees in either direction on the color wheel from the input value.
   ///
   ///  Each `Color` is defined using the same properties as were passed in as variable.
   ///
@@ -22,7 +22,8 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getTriadicColorsUsing(red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0) -> [Color] {
+  func getTriadicColorsUsing(red: CGFloat? = 0, green: CGFloat? = 0, blue: CGFloat? = 0) -> [Color?] {
+    guard let red = red, let green = green, let blue = blue else { return [nil] }
     var redOut = red
     if red < 0 {
       redOut = red / 255.0
@@ -57,12 +58,12 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getTriadicColorsUsing(hex: String) -> [Color]? {
-    guard let rgbIn = convertToRGBUsing(hex: hex) else { return nil }
+  func getTriadicColorsUsing(hex: String?) -> [Color?] {
+    guard let rgbIn = convertToRGBUsing(hex: hex) else { return [nil] }
     
     guard let redIn = rgbIn.red,
           let greenIn = rgbIn.green,
-          let blueIn = rgbIn.blue else { return nil }
+          let blueIn = rgbIn.blue else { return [nil] }
     
     let triadTwo = Color(red: blueIn,
                          green: redIn,
@@ -83,7 +84,15 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getTriadicColorsUsing(uiColor: UIColor?) { }
+  func getTriadicColorsUsing(uiColor: UIColor?) -> [UIColor?] {
+    guard let rgb = convertToRGBUsing(uiColor: uiColor) else { return [nil] }
+    guard let red = rgb.red, let green = rgb.green, let blue = rgb.blue else { return [nil] }
+    let tri = getTriadicColorsUsing(red: red, green: green, blue: blue)
+    let uiTri = tri.map {
+      convertToUIColorUsing(red: $0?.red, green: $0?.green, blue: $0?.blue)
+    }
+    return uiTri
+  }
   
   
   // MARK: - from HSL
@@ -95,7 +104,15 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getTriadicColorsUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) { }
+  func getTriadicColorsUsing(hue: CGFloat?, saturation: CGFloat?, luminance: CGFloat?) -> [Color?] {
+    guard let rgb = convertToRGBUsing(hue: hue, saturation: saturation, luminance: luminance) else { return [nil] }
+    guard let red = rgb.red, let green = rgb.green, let blue = rgb.blue else { return [nil] }
+    let tri = getTriadicColorsUsing(red: red, green: green, blue: blue)
+    let hslTri = tri.map {
+      convertToHSLUsing(red: $0?.red, green: $0?.green, blue: $0?.blue)
+    }
+    return hslTri
+  }
   
   
   // MARK: - from HSV
@@ -107,7 +124,16 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getTriadicColorsUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) { }
+  func getTriadicColorsUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) -> [Color?] {
+    guard let rgb = convertToRGBUsing(hue: hue, saturation: saturation, value: value) else { return [nil] }
+    guard let red = rgb.red, let green = rgb.green, let blue = rgb.blue else { return [nil] }
+    let tri = getTriadicColorsUsing(red: red, green: green, blue: blue)
+    let hsvTri = tri.map {
+      convertToHSVUsing(red: $0?.red, green: $0?.green, blue: $0?.blue)
+    }
+    return hsvTri
+            
+  }
   
   
   // MARK: - from CYMK
@@ -120,6 +146,14 @@ extension Color {
   ///
   /// - Returns:
   ///
-  func getTriadicColorsUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key black: CGFloat) { }
+  func getTriadicColorsUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key: CGFloat) -> [Color?] {
+    guard let rgb = convertToRGBUsing(cyan: cyan, magenta: magenta, yellow: yellow, key: key) else { return [nil] }
+    guard let red = rgb.red, let green = rgb.green, let blue = rgb.blue else { return [nil] }
+    let tri = getTriadicColorsUsing(red: red, green: green, blue: blue)
+    let cmykTri = tri.map {
+      convertToHSLUsing(red: $0?.red, green: $0?.green, blue: $0?.blue)
+    }
+    return cmykTri
+  }
 }
 

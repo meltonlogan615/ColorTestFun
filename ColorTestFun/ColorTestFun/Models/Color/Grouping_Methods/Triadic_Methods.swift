@@ -20,32 +20,18 @@ extension Color {
   /// - Parameter green: `CGFloat` in 256 bit format (0 - 255).
   /// - Parameter blue: `CGFloat` in 256 bit format (0 - 255).
   ///
-  /// - Returns:
+  /// - Returns: `[Color?]` Initialized with Red, Green, & Blue values.
   ///
   func getTriadicColorsUsing(red: CGFloat? = 0, green: CGFloat? = 0, blue: CGFloat? = 0) -> [Color?] {
     guard let red = red, let green = green, let blue = blue else { return [nil] }
-    var redOut = red
-    if red < 0 {
-      redOut = red / 255.0
-    }
     
-    var greenOut = green
-    if green < 0 {
-      greenOut = green / 255.0
-    }
+    let triadTwo = Color(red: blue,
+                         green: red,
+                         blue: green)
     
-    var blueOut = blue
-    if blue < 0 {
-      blueOut = blue / 255.0
-    }
-    
-    let triadTwo = Color(red: blueOut,
-                         green: redOut,
-                         blue: greenOut)
-    
-    let triadThree = Color(red: greenOut,
-                           green: blueOut,
-                           blue: redOut)
+    let triadThree = Color(red: green,
+                           green: blue,
+                           blue: red)
     
     return [triadTwo, triadThree]
   }
@@ -56,24 +42,16 @@ extension Color {
   ///
   /// - Parameter hex: A `Hexidecimal String` consisting of a combination of Letters (A - F) and Numbers (0 - 9).
   ///
-  /// - Returns:
+  /// - Returns: `[Color?]` Initialized with a Hex value.
   ///
   func getTriadicColorsUsing(hex: String?) -> [Color?] {
-    guard let rgbIn = convertToRGBUsing(hex: hex) else { return [nil] }
-    
-    guard let redIn = rgbIn.red,
-          let greenIn = rgbIn.green,
-          let blueIn = rgbIn.blue else { return [nil] }
-    
-    let triadTwo = Color(red: blueIn,
-                         green: redIn,
-                         blue: greenIn)
-    
-    let triadThree = Color(red: greenIn,
-                           green: blueIn,
-                           blue: redIn)
-    
-    return [triadTwo, triadThree]
+    guard let rgb = convertToRGBUsing(hex: hex) else { return [nil] }
+    guard let red = rgb.red, let green = rgb.green, let blue = rgb.blue else { return [nil] }
+    let tri = getTriadicColorsUsing(red: red, green: green, blue: blue)
+    let hexTri = tri.map {
+      convertToHexUsing(red: $0?.red, green: $0?.green, blue: $0?.blue)
+    }
+    return hexTri
   }
   
   
@@ -102,7 +80,7 @@ extension Color {
   /// - Parameter saturation: defined as a percentage in decimal format ranging from 0.0 - 1.0.
   /// - Parameter luminance: defined as a percentage in decimal format ranging from 0.0 - 1.0.
   ///
-  /// - Returns:
+  /// - Returns: `[Color?]` Initialized with Hue, Saturation, & Luminance values.
   ///
   func getTriadicColorsUsing(hue: CGFloat?, saturation: CGFloat?, luminance: CGFloat?) -> [Color?] {
     guard let rgb = convertToRGBUsing(hue: hue, saturation: saturation, luminance: luminance) else { return [nil] }
@@ -122,9 +100,9 @@ extension Color {
   /// - Parameter saturation: defined as a percentage in decimal format ranging from 0.0 - 1.0.
   /// - Parameter value: defined as a percentage in decimal format ranging from 0.0 - 1.0.
   ///
-  /// - Returns:
+  /// - Returns: `[Color?]` Initialized with Hue, Saturation, & Value values.
   ///
-  func getTriadicColorsUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) -> [Color?] {
+  func getTriadicColorsUsing(hue: CGFloat?, saturation: CGFloat?, value: CGFloat?) -> [Color?] {
     guard let rgb = convertToRGBUsing(hue: hue, saturation: saturation, value: value) else { return [nil] }
     guard let red = rgb.red, let green = rgb.green, let blue = rgb.blue else { return [nil] }
     let tri = getTriadicColorsUsing(red: red, green: green, blue: blue)
@@ -132,7 +110,6 @@ extension Color {
       convertToHSVUsing(red: $0?.red, green: $0?.green, blue: $0?.blue)
     }
     return hsvTri
-            
   }
   
   
@@ -144,14 +121,14 @@ extension Color {
   /// - Parameter yellow: defined as a percentage in decimal format ranging from 0.0 - 1.0.
   /// - Parameter key (black):  defined as a percentage in decimal format ranging from 0.0 - 1.0.
   ///
-  /// - Returns:
+  /// - Returns: `[Color?]` Initialized with Cyan, Magenta, Yellow, & Key values.
   ///
-  func getTriadicColorsUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key: CGFloat) -> [Color?] {
+  func getTriadicColorsUsing(cyan: CGFloat?, magenta: CGFloat?, yellow: CGFloat?, key: CGFloat?) -> [Color?] {
     guard let rgb = convertToRGBUsing(cyan: cyan, magenta: magenta, yellow: yellow, key: key) else { return [nil] }
     guard let red = rgb.red, let green = rgb.green, let blue = rgb.blue else { return [nil] }
     let tri = getTriadicColorsUsing(red: red, green: green, blue: blue)
     let cmykTri = tri.map {
-      convertToHSLUsing(red: $0?.red, green: $0?.green, blue: $0?.blue)
+      convertToCMYKUsing(red: $0?.red, green: $0?.green, blue: $0?.blue)
     }
     return cmykTri
   }

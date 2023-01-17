@@ -18,7 +18,7 @@ extension Color {
   /// - Parameter green: `CGFloat` in either 256 (0 - 255) or Floating Point format (0.0 - 1.0).
   /// - Parameter blue: `CGFloat` in either 256 (0 - 255) or Floating Point format (0.0 - 1.0).
   ///
-  /// - Returns:
+  /// - Returns: `Color?` Initialized with Red, Green, & Blue values.
   ///
   func getComplementaryColorsUsing(red: CGFloat, green: CGFloat, blue: CGFloat) -> Color? {
     var redOut = red
@@ -46,13 +46,14 @@ extension Color {
   ///
   /// - Parameter hex: A `Hexidecimal String` consisting of a combination of Letters (A - F) and Numbers (0 - 9).
   ///
-  /// - Returns
+  /// - Returns: `Color?` Initialized with a Hex value.
   ///
   func getComplementaryColorsUsing(hex: String?) -> Color? {
     guard hex != nil, let hex = hex else { return nil }
     guard let color = self.convertToRGBUsing(hex: hex) else { return nil }
     guard let red = color.red, let green = color.green, let blue = color.blue else { return nil }
-    return getComplementaryColorsUsing(red: red, green: green, blue: blue)
+    guard let hexComp = getComplementaryColorsUsing(red: red, green: green, blue: blue) else { return nil }
+    return convertToHexUsing(red: hexComp.red, green: hexComp.green, blue: hexComp.blue)
   }
   
   
@@ -61,12 +62,14 @@ extension Color {
   ///
   /// - Parameter uiColor:
   ///
-  /// - Returns:
-  func getComplementaryColorsUsing(uiColor: UIColor?) -> Color? {
+  /// - Returns: `UIColor?`
+  ///
+  func getComplementaryColorsUsing(uiColor: UIColor?) -> UIColor? {
     guard uiColor != nil, let color = uiColor else { return nil }
     guard let components = color.cgColor.components else { return nil }
     let red = components[0] * 255, green = components[1] * 255, blue = components[2] * 255
-    return getComplementaryColorsUsing(red: red, green: green, blue: blue)
+    guard let uiComp = getComplementaryColorsUsing(red: red, green: green, blue: blue) else { return nil }
+    return convertToUIColorUsing(red: uiComp.red, green: uiComp.green, blue: uiComp.blue)
   }
   
   
@@ -77,12 +80,13 @@ extension Color {
   /// - Parameter saturation: defined as a percentage in decimal format ranging from 0.0 - 1.0.
   /// - Parameter luminance: defined as a percentage in decimal format ranging from 0.0 - 1.0.
   ///
-  /// - Returns:
+  /// - Returns: `Color?` Initialized with Hue, Saturation, & Luminance values.
   ///
   func getComplementaryColorsUsing(hue: CGFloat, saturation: CGFloat, luminance: CGFloat) -> Color? {
     guard let color = self.convertToRGBUsing(hue: hue, saturation: saturation, luminance: luminance) else { return nil }
     guard let red = color.red, let green = color.green, let blue = color.blue else { return nil }
-    return getComplementaryColorsUsing(red: red, green: green, blue: blue)
+    guard let hslComp = getComplementaryColorsUsing(red: red, green: green, blue: blue) else { return nil }
+    return convertToHSLUsing(red: hslComp.red, green: hslComp.green, blue: hslComp.blue)
   }
   
   
@@ -93,12 +97,13 @@ extension Color {
   /// - Parameter saturation: defined as a percentage in decimal format ranging from 0.0 - 1.0.
   /// - Parameter value: defined as a percentage in decimal format ranging from 0.0 - 1.0.
   ///
-  /// - Returns:
+  /// - Returns: `Color?` Initialized with Hue, Saturation, & Value values.
   ///
   func getComplementaryColorsUsing(hue: CGFloat, saturation: CGFloat, value: CGFloat) -> Color? {
     guard let color = self.convertToRGBUsing(hue: hue, saturation: saturation, value: value) else { return nil }
     guard let red = color.red, let green = color.green, let blue = color.blue else { return nil }
-    return getComplementaryColorsUsing(red: red, green: green, blue: blue)
+    guard let hsvComp = getComplementaryColorsUsing(red: red, green: green, blue: blue) else { return nil }
+    return convertToHSVUsing(red: hsvComp.red, green: hsvComp.green, blue: hsvComp.blue)
   }
   
   
@@ -110,12 +115,13 @@ extension Color {
   /// - Parameter yellow: defined as a percentage in decimal format ranging from 0.0 - 1.0.
   /// - Parameter key (black):  defined as a percentage in decimal format ranging from 0.0 - 1.0.
   ///
-  /// - Returns:
+  /// - Returns: `Color?` Initialized with Cyan, Magenta, Yellow, & Key values.
   ///
   func getComplementaryColorsUsing(cyan: CGFloat, magenta: CGFloat, yellow: CGFloat, key: CGFloat) -> Color? {
     guard let color = self.convertToRGBUsing(cyan: cyan, magenta: magenta, yellow: yellow, key: key) else { return nil }
     guard let red = color.red, let green = color.green, let blue = color.blue else { return nil }
-    return getComplementaryColorsUsing(red: red, green: green, blue: blue)
+    guard let cmykComp = getComplementaryColorsUsing(red: red, green: green, blue: blue) else { return nil }
+    return convertToCMYKUsing(red: cmykComp.red, green: cmykComp.green, blue: cmykComp.blue)
   }
 }
 
